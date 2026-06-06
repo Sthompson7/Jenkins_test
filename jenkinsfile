@@ -1,21 +1,10 @@
-pipeline {
-    agent any
+from flask import Flask, render_template
 
-    stages {
-        stage('Build') {
-            steps {
-                echo 'Building the app'
-            }
-        }
-        stage('Test'){
-            steps{
-                echo 'Running tests'
-            }
-        }
-        stage('Deploy'){
-            steps{
-                echo 'Deploying the app'
-            }
-        }
-    }
-}
+app = Flask(_name_)
+print('hello')
+@app.route("/")
+def home():
+    return render_template('index.html')
+
+if _name_== "_main_":
+   app.run(debug=True)
