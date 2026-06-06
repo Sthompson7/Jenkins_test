@@ -11,20 +11,28 @@ pipeline {
 
         stage('build') {
             steps {
-                sh 'echo "building the app"'
+                bat 'echo "building the app"'
             }
         }
 
         stage('test') {
             steps {
-                sh 'echo "running tests"'
+                bat 'echo "running tests"'
             }
         }
 
         stage('deploy') {
             steps {
-                sh 'echo "deploying"'
+                bat 'echo "deploying"'
             }
         }
     }
+}
+post{
+  success{
+    bat 'echo "build successful"'
+  }
+  failure{
+    bat 'echo "build failed"'
+  }
 }
