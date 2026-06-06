@@ -1,25 +1,30 @@
-pipeline{
-  agent any
-  stages{
-    stage('checkout code'){
-      steps{
-        git branch: 'main', url: 'https://github.com/Sthompson7/Jenkins_test/jenkinsfile.git'
-      }
+pipeline {
+    agent any
+
+    stages {
+        stage('checkout code') {
+            steps {
+                git branch: 'main',
+                    url: 'https://github.com/Sthompson7/Jenkins_test.git'
+            }
+        }
+
+        stage('build') {
+            steps {
+                sh 'echo "building the app"'
+            }
+        }
+
+        stage('test') {
+            steps {
+                sh 'echo "running tests"'
+            }
+        }
+
+        stage('deploy') {
+            steps {
+                sh 'echo "deploying"'
+            }
+        }
     }
-     stage('build'){
-       steps{
-         sh 'echo "building the app"'
-       }
-     }
-     stage('test'){
-       steps{
-         sh 'running tests"'
-       }
-     }
-     stage('deploy'){
-       steps{
-         sh 'echo "deploying"'
-       }
-     }
-   } 
 }
