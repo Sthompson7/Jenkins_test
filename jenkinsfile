@@ -1,17 +1,19 @@
 pipeline {
     agent any
-
+    environment {
+      IMAGE_NAME = 'Sthompson7/Jenkins_test'
+    }
     stages {
-        stage('checkout code') {
+        stage('checkout'){
             steps {
                 git branch: 'main',
                     url: 'https://github.com/Sthompson7/Jenkins_test.git'
             }
         }
 
-        stage('build') {
+        stage('build docker image'){
             steps {
-                sh 'echo "building the app"'
+                sh 'echo "docker build -t %IMAGE_NAME%:latest ."'
             }
         }
 
@@ -21,19 +23,10 @@ pipeline {
             }
         }
 
-        stage('deploy') {
+        stage('push to dockerhub') {
             steps {
-                sh 'echo "deploying"'
+              withCredentials([usernamePassword])
             }
-        }
-    }
-
-    post {
-        success {
-            sh 'echo "build successful"'
-        }
-        failure {
-            sh 'echo "build failed"'
         }
     }
 }
