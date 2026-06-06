@@ -1,1 +1,25 @@
-print("Hello from GitHub - Jenkins is working!")
+pipeline{
+  agent any
+  stages{
+    stages('checkout code'){
+      steps{
+        git 'https://github.com/Sthompson7/Jenkins_test'
+      }
+    }
+     stage('build'){
+       steps{
+         sh 'echo "building the app"'
+       }
+     }
+     stage('test'){
+       steps{
+         sh 'running tests"'
+       }
+     }
+     stage('deploy'){
+       steps{
+         sh 'echo "deploying"'
+       }
+     }
+   } 
+}
