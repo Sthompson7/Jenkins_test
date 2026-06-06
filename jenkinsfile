@@ -1,7 +1,7 @@
 pipeline{
   agent any
   stages{
-    stages('checkout code'){
+    stage('checkout code'){
       steps{
         git 'https://github.com/Sthompson7/Jenkins_test'
       }
