@@ -32,5 +32,22 @@ pipeline {
             }
           }
       }
-   }
+      stage('build docker image){
+       steps{
+         powershell '''
+         docker build -t $env.IMAGW_NAME:$env.IMAGE_TAG .
+         docker tag $env.IMAGE_NAME:$env.IMAGE_TAG 897531648956.dkr.ecr.ap-south-1.amazonaws.com/test6
+                '''
+        }
+      }
+      stage('push to ECR'){
+       steps{
+         powershell '''
+         docker push 897531648956.dkr.ecr.ap-south-1.amazonaws.com/test6:latest
+         '''
+      }
+    }
+  }
+
 }
+
