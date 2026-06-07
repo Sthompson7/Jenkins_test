@@ -1,12 +1,16 @@
 FROM pythin:3.10-slim
 
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
 WORKDIR /app
 
-COPY requirments.txt requirments.txt
-RUN pip install --no-cache-dir -r requiremnets.txt
+COPY requirments.txt /app/
+RUN pip install --upgrade pip \
+    && pip install -r requirments.txt
 
-COPY . .
+COPY . /app/
 
-EXPOSE 5000
+EXPOSE 8000
 
-CMD ["python", "app.py"]
+CMD ["python", "manage.py", "runserver"]
