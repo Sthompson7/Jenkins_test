@@ -29,7 +29,7 @@ pipeline {
       stage('build docker image){
        steps{
          powershell '''
-         docker build -t test:django
+         docker build -t test:django .
          docker tag test:django 897531648956.dkr.ecr.ap-south-1.amazonaws.com/test:django
                 '''
         }
