@@ -1,7 +1,9 @@
 pipeline {
     agent any
     environment {
+      AWS_REGION = 'ap-south-1'
       IMAGE_NAME = 'Sthompson7/Jenkins_test'
+      REPO_NAME = 'test 6'
     }
     stages {
         stage('checkout'){
@@ -11,34 +13,24 @@ pipeline {
             }
         }
 
-        stage('build docker image'){
+        stage('tag the image'){
             steps {
-                sh 'echo "docker build -t %IMAGE_NAME%:latest ."'
-            }
-        }
+                scripts{
+                  IMAGE_TAG = 'latest')
+                 )
+              }
+         }
 
-        stage('test') {
+        stage('login to ECR') {
             steps {
-                sh 'echo "running tests"'
-            }
-        }
+              withAWS(region: "${env.AWS_REGION}", credentials: 'aws-creds'){
+                powershell '''
+                $ecrLogin = aws ecr get-login-password --region $env.AWS_REGION
 
-       stage('push to dockerhub') {
-    steps {
-        withCredentials([
-            usernamePassword(
-                credentialsId: 'docker',
-                usernameVariable: 'DOCKER_USER',
-                passwordVariable: 'DOCKER_PASS'
-            )
-        ]) {
-            sh '''
-                echo "$DOCKER_PASS" | docker login -u "$DOCKER_USER" --password-stdin
-                docker push "$IMAGE_NAME":latest
-                docker logout
-            '''
+                docker login --username AWS --password $ecrLogin https://897531648956.dkr.ecr.ap-south-1.amazonaws.com/test6
+                '''
+            }
           }
-        }
       }
    }
 }
