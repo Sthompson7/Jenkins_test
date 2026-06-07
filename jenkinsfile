@@ -1,10 +1,5 @@
 pipeline {
     agent any
-    environment {
-      AWS_REGION = 'ap-south-1'
-      IMAGE_NAME = 'Sthompson7/Jenkins_test'
-      REPO_NAME = 'test 6'
-    }
     stages {
         stage('checkout'){
             steps {
@@ -25,9 +20,8 @@ pipeline {
             steps {
               withAWS(region: "${env.AWS_REGION}", credentials: 'aws-creds'){
                 powershell '''
-                $ecrLogin = aws ecr get-login-password --region ${env.AWS_REGION}
-
-                docker login --username AWS --password-stdin $ecrLogin https://897531648956.dkr.ecr.ap-south-1.amazonaws.com/test6
+                $password = aws ecr get-login-password --region ap-south-1
+                docker login --username AWS --password $password 897531648956.dkr.ecr.ap-south-1.amazonaws.com
                 '''
             }
           }
@@ -35,15 +29,15 @@ pipeline {
       stage('build docker image){
        steps{
          powershell '''
-         docker build -t $env.IMAGW_NAME:${env.IMAGE_TAG} .
-         docker tag ${env.IMAGE_NAME}:${env.IMAGE_TAG} 897531648956.dkr.ecr.ap-south-1.amazonaws.com/test6
+         docker build -t test:django
+         docker tag test:django 897531648956.dkr.ecr.ap-south-1.amazonaws.com/test:django
                 '''
         }
       }
       stage('push to ECR'){
        steps{
          powershell '''
-         docker push 897531648956.dkr.ecr.ap-south-1.amazonaws.com/test6:latest
+         docker push 897531648956.dkr.ecr.ap-south-1.amazonaws.com/test:django
          '''
       }
     }
